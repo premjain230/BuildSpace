@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevForge — Developer Community</title>
+  <style>
+    :root {
+      --bg: #08111f;
+      --panel: rgba(15, 23, 42, 0.92);
+      --panel-2: #101b33;
+      --text: #e5eefb;
+      --muted: #9bb0cc;
+      --accent: #60a5fa;
+      --accent-2: #22c55e;
+      --border: rgba(148, 163, 184, 0.18);
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+    }
+
+    [data-theme="light"] {
+      --bg: #eef4ff;
+      --panel: rgba(255, 255, 255, 0.92);
+      --panel-2: #f8fbff;
+      --text: #0f172a;
+      --muted: #52657f;
+      --accent: #2563eb;
+      --accent-2: #0f9d58;
+      --border: rgba(15, 23, 42, 0.1);
+      --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(96, 165, 250, 0.22), transparent 30%),
+        radial-gradient(circle at top right, rgba(34, 197, 94, 0.16), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(14px);
+      background: color-mix(in srgb, var(--bg) 72%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .topbar-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
+      color: white;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+    }
+
+    .brand h1 {
+      font-size: 18px;
+      margin: 0;
+      line-height: 1.1;
+    }
+
+    .brand p {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn, .chip, .tab {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 11px 14px;
+      cursor: pointer;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .btn:hover, .chip:hover, .tab:hover { transform: translateY(-1px); }
+
+    .btn.primary {
+      border: none;
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
+      color: white;
+      font-weight: 700;
+    }
+
+    .shell {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: 270px minmax(0, 1fr) 320px;
+      gap: 18px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel .head {
+      padding: 18px 18px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .panel .head h2,
+    .panel .head h3 {
+      margin: 0;
+    }
+
+    .panel .head p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .panel .body { padding: 16px; }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .profile {
+      display: grid;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--accent), #06b6d4);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 12px 14px;
+      outline: none;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .muted { color: var(--muted); }
+    .small { font-size: 13px; }
+
+    .nav-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--panel-2);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), var(--panel-2));
+      border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    }
+
+    .main {
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero {
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(96, 165, 250, 0.18), rgba(124, 58, 237, 0.12)),
+        var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .hero h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      margin: 0 0 12px;
+      line-height: 1.02;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 62ch;
+      line-height: 1.6;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 14px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+
+    .section-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .tabs, .chips {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tab.active, .chip.active {
+      background: linear-gradient(135deg, var(--accent), #7c3aed);
+      color: white;
+      border-color: transparent;
+    }
+
+    .composer {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .composer-grid {
+      display: grid;
+      grid-template-columns: 1fr 180px;
+      gap: 10px;
+    }
+
+    .feed {
+      display: grid;
+      gap: 12px;
+    }
+
+    .post-card {
+      padding: 16px;
+      border-radius: 20px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+    }
+
+    .post-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(96, 165, 250, 0.12);
+      color: var(--accent);
+      border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .mini-btn {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      border-radius: 999px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+
+    .rightbar {
+      display: grid;
+      gap: 18px;
+    }
+
+    .chat {
+      display: grid;
+      gap: 10px;
+    }
+
+    .chat-log {
+      height: 280px;
+      overflow: auto;
+      display: grid;
+      gap: 10px;
+      padding-right: 4px;
+    }
+
+    .bubble {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      padding: 12px 13px;
+      border-radius: 18px;
+    }
+
+    .bubble .name {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .footer-note {
+      padding: 14px 16px 16px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .empty {
+      padding: 24px;
+      border: 1px dashed var(--border);
+      border-radius: 20px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 1080px) {
+      .shell { grid-template-columns: 1fr; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .rightbar { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      .rightbar, .stats, .composer-grid { grid-template-columns: 1fr; }
+      .topbar-inner { padding: 14px 16px; }
+      .shell { padding: 14px; }
+      .hero { padding: 18px; }
+    }
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo">DF</div>
+        <div>
+          <h1>DevForge</h1>
+          <p>Developer community for tips, collabs, and builds</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="btn" id="themeBtn">Toggle theme</button>
+        <button class="btn primary" id="scrollToFeedBtn">Join the feed</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="panel">
+        <div class="head">
+          <h3>Your profile</h3>
+          <p>Set a name so posts feel personal.</p>
+        </div>
+        <div class="body profile">
+          <div style="display:flex; gap:12px; align-items:center;">
+            <div class="avatar" id="avatar">P</div>
+            <div>
+              <div style="font-weight:800;" id="displayName">Prem</div>
+              <div class="muted small">Member of DevForge</div>
+            </div>
+          </div>
+          <input id="nameInput" placeholder="Your name" value="Prem" />
+          <input id="roleInput" placeholder="Your role (Web Dev, AI Dev, etc.)" value="Web Dev" />
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="head">
+          <h3>Channels</h3>
+          <p>Pick a topic to view tips and posts.</p>
+        </div>
+        <div class="body nav-list" id="channelList"></div>
+      </div>
+
+      <div class="panel">
+        <div class="head">
+          <h3>Community goals</h3>
+          <p>What DevForge is for.</p>
+        </div>
+        <div class="body" style="display:grid; gap:10px;">
+          <div class="bubble"><b>Learn</b><div class="muted small">Share one helpful tip every day.</div></div>
+          <div class="bubble"><b>Build</b><div class="muted small">Turn ideas into small projects.</div></div>
+          <div class="bubble"><b>Collab</b><div class="muted small">Find people with the same goals.</div></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+            <div class="tag">⚡ New developer space</div>
+            <h2>Build, post tips, and chat with other developers.</h2>
+            <p>
+              DevForge is a starter community website idea for developers. It has topic channels,
+              a public feed, quick chat, search, local posting, and a clean Discord-style layout.
+            </p>
+          </div>
+          <div class="stats">
+            <div class="stat">
+              <strong id="tipCount">0</strong>
+              <span class="muted small">tips shared</span>
+            </div>
+            <div class="stat">
+              <strong id="memberCount">128</strong>
+              <span class="muted small">members online</span>
+            </div>
+            <div class="stat">
+              <strong id="channelCount">0</strong>
+              <span class="muted small">channels</span>
+            </div>
+            <div class="stat">
+              <strong>Free</strong>
+              <span class="muted small">host on GitHub Pages</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="feedSection">
+        <div class="head">
+          <div class="section-top">
+            <div>
+              <h2 style="margin:0;">Public feed</h2>
+              <p>Posts update in your browser using localStorage.</p>
+            </div>
+            <div class="tabs" id="filterTabs"></div>
+          </div>
+        </div>
+        <div class="body">
+          <div class="row">
+            <input id="searchInput" placeholder="Search tips, tags, or names..." />
+            <div class="composer">
+              <div class="composer-grid">
+                <select id="channelSelect"></select>
+                <button class="btn primary" id="postBtn">Post tip</button>
+              </div>
+              <textarea id="postText" placeholder="Share a tip, question, or tiny build idea..."></textarea>
+            </div>
+          </div>
+          <div class="feed" id="feed"></div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="rightbar">
+      <section class="panel chat">
+        <div class="head">
+          <h3>Quick chat</h3>
+          <p>Not real-time yet, but it feels like a small Discord room.</p>
+        </div>
+        <div class="body">
+          <div class="chat-log" id="chatLog"></div>
+          <div class="row" style="margin-top:12px;">
+            <input id="chatName" placeholder="Name" value="Prem" />
+            <input id="chatMsg" placeholder="Message..." />
+            <button class="btn primary" id="sendMsgBtn">Send message</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="head">
+          <h3>Daily build ideas</h3>
+          <p>Extra sections you can keep on the site.</p>
+        </div>
+        <div class="body" style="display:grid; gap:10px;">
+          <div class="bubble"><b>1. Challenge board</b><div class="muted small">Post mini coding tasks.</div></div>
+          <div class="bubble"><b>2. Collab finder</b><div class="muted small">Match by skill and interest.</div></div>
+          <div class="bubble"><b>3. Resource vault</b><div class="muted small">Save links and tutorials.</div></div>
+          <div class="bubble"><b>4. Showcase</b><div class="muted small">Show projects and demos.</div></div>
+          <div class="bubble"><b>5. Help desk</b><div class="muted small">Ask questions and get replies.</div></div>
+          <div class="bubble"><b>6. Role badges</b><div class="muted small">Web, app, AI, Roblox, game, design.</div></div>
+          <div class="bubble"><b>7. Weekly events</b><div class="muted small">Hackathons and build nights.</div></div>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <script>
+    const channels = [
+      { id: 'all', name: 'All', icon: '🌍' },
+      { id: 'web', name: 'Web Dev', icon: '🌐' },
+      { id: 'app', name: 'App Dev', icon: '📱' },
+      { id: 'ai', name: 'AI Dev', icon: '🤖' },
+      { id: 'roblox', name: 'Roblox Dev', icon: '🎮' },
+      { id: 'game', name: 'Game Dev', icon: '🕹️' },
+      { id: 'design', name: 'Design', icon: '🎨' },
+      { id: 'tools', name: 'Tools', icon: '🛠️' }
+    ];
+
+    const seedPosts = [
+      { id: 1, channel: 'web', name: 'Aarav', role: 'Frontend', text: 'Keep your homepage simple. One strong headline beats five weak ones.', likes: 14, time: '2h ago' },
+      { id: 2, channel: 'ai', name: 'Mira', role: 'AI Dev', text: 'Start with a small prompt app. Learn the workflow before chasing big models.', likes: 21, time: '4h ago' },
+      { id: 3, channel: 'roblox', name: 'Kabir', role: 'Game Scripter', text: 'Use one game mechanic and polish it. A tiny fun game is better than a huge broken one.', likes: 18, time: '6h ago' },
+      { id: 4, channel: 'app', name: 'Nina', role: 'Mobile Dev', text: 'Make the first screen super clear. People decide fast whether your app feels good.', likes: 16, time: '8h ago' },
+      { id: 5, channel: 'tools', name: 'DevBot', role: 'Community', text: 'Tip: Use GitHub Pages for free hosting and share your project link with friends.', likes: 30, time: 'Today' }
+    ];
+
+    const state = {
+      activeChannel: 'all',
+      search: '',
+      posts: loadPosts(),
+      chat: loadChat(),
+      theme: localStorage.getItem('devforge-theme') || 'dark'
+    };
+
+    const el = (id) => document.getElementById(id);
+
+    function initials(name) {
+      return (name || 'P').trim().slice(0, 1).toUpperCase();
+    }
+
+    function loadPosts() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('devforge-posts'));
+        return Array.isArray(saved) ? saved : seedPosts;
+      } catch {
+        return seedPosts;
+      }
+    }
+
+    function savePosts() {
+      localStorage.setItem('devforge-posts', JSON.stringify(state.posts));
+    }
+
+    function loadChat() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('devforge-chat'));
+        return Array.isArray(saved) ? saved : [
+          { name: 'Prem', msg: 'Anyone building a website today?', time: 'Now' },
+          { name: 'Lia', msg: 'Yes — working on a portfolio!', time: '1m ago' }
+        ];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveChat() {
+      localStorage.setItem('devforge-chat', JSON.stringify(state.chat));
+    }
+
+    function setTheme(theme) {
+      document.body.setAttribute('data-theme', theme);
+      localStorage.setItem('devforge-theme', theme);
+    }
+
+    function renderChannels() {
+      const channelList = el('channelList');
+      const filterTabs = el('filterTabs');
+      const channelSelect = el('channelSelect');
+
+      channelList.innerHTML = '';
+      filterTabs.innerHTML = '';
+      channelSelect.innerHTML = '';
+
+      channels.forEach((ch) => {
+        const btn = document.createElement('button');
+        btn.className = 'nav-item' + (state.activeChannel === ch.id ? ' active' : '');
+        btn.innerHTML = `<span>${ch.icon} ${ch.name}</span><span class="muted small">${countByChannel(ch.id)}</span>`;
+        btn.onclick = () => {
+          state.activeChannel = ch.id;
+          render();
+        };
+        channelList.appendChild(btn);
+
+        const tab = document.createElement('button');
+        tab.className = 'tab' + (state.activeChannel === ch.id ? ' active' : '');
+        tab.textContent = ch.name;
+        tab.onclick = () => {
+          state.activeChannel = ch.id;
+          render();
+        };
+        filterTabs.appendChild(tab);
+
+        if (ch.id !== 'all') {
+          const opt = document.createElement('option');
+          opt.value = ch.id;
+          opt.textContent = `${ch.icon} ${ch.name}`;
+          channelSelect.appendChild(opt);
+        }
+      });
+
+      el('channelCount').textContent = channels.length - 1;
+    }
+
+    function countByChannel(channelId) {
+      if (channelId === 'all') return state.posts.length;
+      return state.posts.filter(p => p.channel === channelId).length;
+    }
+
+    function filteredPosts() {
+      const q = state.search.toLowerCase().trim();
+      return state.posts
+        .filter(post => state.activeChannel === 'all' ? true : post.channel === state.activeChannel)
+        .filter(post => {
+          if (!q) return true;
+          return [post.name, post.role, post.text, post.channel].join(' ').toLowerCase().includes(q);
+        })
+        .sort((a, b) => b.id - a.id);
+    }
+
+    function renderFeed() {
+      const feed = el('feed');
+      const posts = filteredPosts();
+      el('tipCount').textContent = state.posts.length;
+
+      if (!posts.length) {
+        feed.innerHTML = `<div class="empty">No posts found. Try another category or search term.</div>`;
+        return;
+      }
+
+      feed.innerHTML = '';
+      posts.forEach(post => {
+        const channel = channels.find(c => c.id === post.channel);
+        const card = document.createElement('div');
+        card.className = 'post-card';
+        card.innerHTML = `
+          <div class="post-top">
+            <div>
+              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                <div style="width:40px; height:40px; border-radius:14px; background:linear-gradient(135deg, var(--accent), #7c3aed); display:grid; place-items:center; color:#fff; font-weight:800;">${initials(post.name)}</div>
+                <div>
+                  <div style="font-weight:800;">${post.name} <span class="muted small">• ${post.role}</span></div>
+                  <div class="meta"><span>${channel?.icon || '💬'} ${channel?.name || post.channel}</span><span>${post.time}</span></div>
+                </div>
+              </div>
+            </div>
+            <span class="tag">#${post.channel}</span>
+          </div>
+          <div style="line-height:1.7;">${escapeHtml(post.text)}</div>
+          <div class="actions">
+            <button class="mini-btn" data-like="${post.id}">👍 Like ${post.likes}</button>
+            <button class="mini-btn" data-copy="${post.id}">📋 Copy</button>
+          </div>
+        `;
+        feed.appendChild(card);
+      });
+
+      feed.querySelectorAll('[data-like]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const id = Number(btn.getAttribute('data-like'));
+          const post = state.posts.find(p => p.id === id);
+          if (post) {
+            post.likes += 1;
+            savePosts();
+            renderFeed();
+          }
+        });
+      });
+
+      feed.querySelectorAll('[data-copy]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const id = Number(btn.getAttribute('data-copy'));
+          const post = state.posts.find(p => p.id === id);
+          if (post && navigator.clipboard) {
+            await navigator.clipboard.writeText(post.text);
+            btn.textContent = '✅ Copied';
+            setTimeout(() => { btn.textContent = '📋 Copy'; }, 1100);
+          }
+        });
+      });
+    }
+
+    function renderChat() {
+      const chatLog = el('chatLog');
+      chatLog.innerHTML = '';
+      state.chat.slice(-20).forEach(item => {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        bubble.innerHTML = `<div class="name">${escapeHtml(item.name)} <span class="muted small">• ${item.time}</span></div><div>${escapeHtml(item.msg)}</div>`;
+        chatLog.appendChild(bubble);
+      });
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function addPost() {
+      const name = el('nameInput').value.trim() || 'Anonymous';
+      const role = el('roleInput').value.trim() || 'Developer';
+      const text = el('postText').value.trim();
+      const channel = el('channelSelect').value;
+      if (!text) return;
+
+      state.posts.push({
+        id: Date.now(),
+        channel,
+        name,
+        role,
+        text,
+        likes: 0,
+        time: 'Just now'
+      });
+
+      savePosts();
+      el('postText').value = '';
+      render();
+    }
+
+    function sendChat() {
+      const name = el('chatName').value.trim() || 'Anon';
+      const msg = el('chatMsg').value.trim();
+      if (!msg) return;
+
+      state.chat.push({ name, msg, time: 'Just now' });
+      saveChat();
+      el('chatMsg').value = '';
+      renderChat();
+    }
+
+    function render() {
+      el('displayName').textContent = el('nameInput').value.trim() || 'Prem';
+      el('avatar').textContent = initials(el('nameInput').value.trim() || 'P');
+      renderChannels();
+      renderFeed();
+      renderChat();
+    }
+
+    el('nameInput').addEventListener('input', render);
+    el('roleInput').addEventListener('input', render);
+    el('searchInput').addEventListener('input', (e) => {
+      state.search = e.target.value;
+      renderFeed();
+    });
+    el('postBtn').addEventListener('click', addPost);
+    el('sendMsgBtn').addEventListener('click', sendChat);
+    el('chatMsg').addEventListener('keydown', (e) => { if (e.key === 'Enter') sendChat(); });
+    el('postText').addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') addPost();
+    });
+
+    el('themeBtn').addEventListener('click', () => {
+      const next = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+    });
+
+    el('scrollToFeedBtn').addEventListener('click', () => {
+      el('feedSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    setTheme(state.theme);
+    render();
+  </script>
+</body>
+</html>
