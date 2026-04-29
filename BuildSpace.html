@@ -3,856 +3,1450 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DevForge — Developer Community</title>
+  <meta name="description" content="DevForge — a futuristic developer hub for tips, snippets, projects, tools, and learning paths." />
+  <title>DevForge</title>
   <style>
     :root {
-      --bg: #08111f;
-      --panel: rgba(15, 23, 42, 0.92);
-      --panel-2: #101b33;
-      --text: #e5eefb;
-      --muted: #9bb0cc;
-      --accent: #60a5fa;
-      --accent-2: #22c55e;
-      --border: rgba(148, 163, 184, 0.18);
-      --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+      --bg: #070b16;
+      --bg2: #0d1324;
+      --card: rgba(10, 16, 31, 0.82);
+      --card2: rgba(14, 21, 39, 0.9);
+      --text: #e5eefc;
+      --muted: #93a4c3;
+      --line: rgba(148, 163, 184, 0.15);
+      --brand: #66e3ff;
+      --brand2: #8b5cf6;
+      --accent: #f59e0b;
+      --good: #22c55e;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius: 24px;
+      --radius2: 18px;
     }
 
-    [data-theme="light"] {
-      --bg: #eef4ff;
-      --panel: rgba(255, 255, 255, 0.92);
-      --panel-2: #f8fbff;
-      --text: #0f172a;
-      --muted: #52657f;
-      --accent: #2563eb;
-      --accent-2: #0f9d58;
-      --border: rgba(15, 23, 42, 0.1);
-      --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    * {
+      box-sizing: border-box;
     }
 
-    * { box-sizing: border-box; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(96, 165, 250, 0.22), transparent 30%),
-        radial-gradient(circle at top right, rgba(34, 197, 94, 0.16), transparent 28%),
-        var(--bg);
       color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(102, 227, 255, 0.12), transparent 24%),
+        radial-gradient(circle at top right, rgba(139, 92, 246, 0.16), transparent 22%),
+        radial-gradient(circle at bottom left, rgba(245, 158, 11, 0.12), transparent 22%),
+        linear-gradient(180deg, #050814 0%, #070b16 35%, #050814 100%);
       min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .wrap {
+      width: min(1250px, calc(100% - 32px));
+      margin: 0 auto;
     }
 
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 20;
-      backdrop-filter: blur(14px);
-      background: color-mix(in srgb, var(--bg) 72%, transparent);
-      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      backdrop-filter: blur(18px);
+      background: rgba(5, 8, 20, 0.72);
+      border-bottom: 1px solid var(--line);
     }
 
-    .topbar-inner {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 16px 20px;
+    .nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 16px;
+      padding: 16px 0;
     }
 
     .brand {
       display: flex;
-      gap: 12px;
       align-items: center;
+      gap: 12px;
+      min-width: max-content;
     }
 
     .logo {
       width: 42px;
       height: 42px;
       border-radius: 14px;
-      display: grid;
-      place-items: center;
-      background: linear-gradient(135deg, var(--accent), #7c3aed);
-      color: white;
-      font-weight: 800;
-      box-shadow: var(--shadow);
-    }
-
-    .brand h1 {
-      font-size: 18px;
-      margin: 0;
-      line-height: 1.1;
-    }
-
-    .brand p {
-      margin: 2px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .top-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .btn, .chip, .tab {
-      border: 1px solid var(--border);
-      background: var(--panel);
-      color: var(--text);
-      border-radius: 16px;
-      padding: 11px 14px;
-      cursor: pointer;
-      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
-      box-shadow: var(--shadow);
-    }
-
-    .btn:hover, .chip:hover, .tab:hover { transform: translateY(-1px); }
-
-    .btn.primary {
-      border: none;
-      background: linear-gradient(135deg, var(--accent), #7c3aed);
-      color: white;
-      font-weight: 700;
-    }
-
-    .shell {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 20px;
-      display: grid;
-      grid-template-columns: 270px minmax(0, 1fr) 320px;
-      gap: 18px;
-    }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      box-shadow: 0 12px 24px rgba(102, 227, 255, 0.18);
+      position: relative;
       overflow: hidden;
     }
 
-    .panel .head {
-      padding: 18px 18px 10px;
-      border-bottom: 1px solid var(--border);
+    .logo::before {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 2px solid rgba(255,255,255,0.55);
+      border-radius: 10px;
+      transform: rotate(8deg);
     }
 
-    .panel .head h2,
-    .panel .head h3 {
+    .brand h1 {
       margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
     }
 
-    .panel .head p {
-      margin: 6px 0 0;
+    .brand small {
+      display: block;
       color: var(--muted);
-      font-size: 13px;
+      margin-top: 2px;
+      font-size: 0.76rem;
     }
 
-    .panel .body { padding: 16px; }
-
-    .sidebar {
+    .navlinks {
       display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .profile {
-      display: grid;
-      gap: 12px;
-    }
-
-    .avatar {
-      width: 58px;
-      height: 58px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, var(--accent), #06b6d4);
-      display: grid;
-      place-items: center;
-      color: white;
-      font-weight: 800;
-      font-size: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    input, textarea, select {
-      width: 100%;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: var(--panel-2);
-      color: var(--text);
-      padding: 12px 14px;
-      outline: none;
-      font: inherit;
-    }
-
-    textarea {
-      min-height: 110px;
-      resize: vertical;
-    }
-
-    .muted { color: var(--muted); }
-    .small { font-size: 13px; }
-
-    .nav-list {
-      display: grid;
       gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
-    .nav-item {
+    .navlinks a,
+    .chip,
+    .ghost,
+    .primary,
+    .secondary,
+    .tinybtn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      transition: 0.25s ease;
+    }
+
+    .navlinks a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 0.95rem;
+    }
+
+    .navlinks a:hover,
+    .ghost:hover,
+    .secondary:hover,
+    .tinybtn:hover,
+    .chip:hover {
+      transform: translateY(-1px);
+      border-color: rgba(102, 227, 255, 0.35);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.22);
+    }
+
+    .navactions {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      width: 100%;
-      text-align: left;
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: var(--panel-2);
-      color: var(--text);
+      gap: 10px;
+      min-width: max-content;
+    }
+
+    .primary,
+    .secondary,
+    .ghost,
+    .tinybtn {
+      border-radius: 14px;
+      padding: 11px 16px;
       cursor: pointer;
     }
 
-    .nav-item.active {
-      background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 22%, transparent), var(--panel-2));
-      border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    .primary {
+      background: linear-gradient(135deg, var(--brand), var(--brand2));
+      color: #08101e;
+      border: none;
+      font-weight: 700;
+      box-shadow: 0 14px 34px rgba(102, 227, 255, 0.18);
     }
 
-    .main {
-      display: grid;
-      gap: 18px;
+    .primary:hover {
+      transform: translateY(-2px) scale(1.01);
+      box-shadow: 0 18px 40px rgba(102, 227, 255, 0.24);
     }
 
     .hero {
-      padding: 24px;
-      background:
-        linear-gradient(135deg, rgba(96, 165, 250, 0.18), rgba(124, 58, 237, 0.12)),
-        var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
+      padding: 56px 0 22px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 18px;
-      align-items: center;
+      grid-template-columns: 1.18fr 0.82fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(12, 18, 35, 0.94), rgba(8, 12, 24, 0.9));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,0.06), transparent 35%, transparent 70%, rgba(255,255,255,0.04));
+    }
+
+    .hero-main {
+      padding: 34px;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.86rem;
+      color: var(--muted);
     }
 
     .hero h2 {
-      font-size: clamp(30px, 4vw, 48px);
-      margin: 0 0 12px;
-      line-height: 1.02;
+      margin: 0;
+      font-size: clamp(2.4rem, 5vw, 5rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      max-width: 11ch;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--brand), #ffffff, var(--brand2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .hero p {
       margin: 0;
+      max-width: 60ch;
       color: var(--muted);
-      max-width: 62ch;
-      line-height: 1.6;
+      font-size: 1.04rem;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .secondary,
+    .ghost {
+      background: rgba(255,255,255,0.03);
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 22px;
     }
 
     .stats {
+      padding: 22px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
+      gap: 14px;
     }
 
     .stat {
-      background: var(--panel-2);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 14px;
+      background: var(--card2);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
     }
 
     .stat strong {
       display: block;
-      font-size: 24px;
-      margin-bottom: 4px;
+      font-size: 1.6rem;
+      margin-bottom: 6px;
     }
 
-    .section-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-
-    .tabs, .chips {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .tab.active, .chip.active {
-      background: linear-gradient(135deg, var(--accent), #7c3aed);
-      color: white;
-      border-color: transparent;
-    }
-
-    .composer {
-      display: grid;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    .composer-grid {
-      display: grid;
-      grid-template-columns: 1fr 180px;
-      gap: 10px;
-    }
-
-    .feed {
-      display: grid;
-      gap: 12px;
-    }
-
-    .post-card {
-      padding: 16px;
-      border-radius: 20px;
-      background: var(--panel-2);
-      border: 1px solid var(--border);
-    }
-
-    .post-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: flex-start;
-      margin-bottom: 10px;
-    }
-
-    .meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+    .stat span {
       color: var(--muted);
-      font-size: 12px;
-      margin-top: 4px;
+      font-size: 0.9rem;
     }
 
-    .tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(96, 165, 250, 0.12);
-      color: var(--accent);
-      border: 1px solid color-mix(in srgb, var(--accent) 22%, var(--border));
-      font-size: 12px;
-      font-weight: 700;
+    .mini-console {
+      padding: 22px;
     }
 
-    .actions {
+    .console-top {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
     }
 
-    .mini-btn {
-      border: 1px solid var(--border);
+    .dots {
+      display: flex;
+      gap: 7px;
+    }
+
+    .dots span {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+    }
+
+    .console {
+      background: #050913;
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 240px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      color: #baf7d0;
+      line-height: 1.72;
+      overflow: auto;
+    }
+
+    .console b { color: #fff; }
+    .console .blue { color: #7dd3fc; }
+    .console .yellow { color: #fcd34d; }
+    .console .pink { color: #f9a8d4; }
+    .console .gray { color: #94a3b8; }
+
+    .section {
+      padding: 22px 0;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 68ch;
+      line-height: 1.7;
+    }
+
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search {
+      width: min(100%, 360px);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+    }
+
+    .search input {
+      width: 100%;
+      border: none;
+      outline: none;
       background: transparent;
       color: var(--text);
-      border-radius: 999px;
-      padding: 8px 12px;
-      cursor: pointer;
     }
 
-    .rightbar {
+    .grid-3 {
       display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
     }
 
-    .chat {
+    .grid-4 {
       display: grid;
-      gap: 10px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
     }
 
-    .chat-log {
-      height: 280px;
-      overflow: auto;
-      display: grid;
-      gap: 10px;
-      padding-right: 4px;
+    .card {
+      border: 1px solid var(--line);
+      background: var(--card);
+      border-radius: var(--radius2);
+      padding: 18px;
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
+      position: relative;
+      overflow: hidden;
     }
 
-    .bubble {
-      background: var(--panel-2);
-      border: 1px solid var(--border);
-      padding: 12px 13px;
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: auto -20% -40% auto;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(102, 227, 255, 0.12), transparent 62%);
+      pointer-events: none;
+    }
+
+    .card h4 {
+      margin: 0 0 8px;
+      font-size: 1.08rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.97rem;
+    }
+
+    .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, rgba(102, 227, 255, 0.18), rgba(139, 92, 246, 0.18));
+      border: 1px solid rgba(102, 227, 255, 0.18);
+      font-size: 1.2rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 14px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      color: #dbeafe;
+      font-size: 0.86rem;
+    }
+
+    .roadmap {
+      display: grid;
+      gap: 14px;
+    }
+
+    .roadstep {
+      display: grid;
+      grid-template-columns: 90px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
       border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
     }
 
-    .bubble .name {
-      font-weight: 700;
-      margin-bottom: 4px;
+    .roadstep strong {
+      font-size: 1rem;
     }
 
-    .row {
+    .roadstep span {
+      color: var(--muted);
+    }
+
+    .level {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.18);
+      color: #fcd34d;
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .codebox {
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #040712;
+      overflow: hidden;
+    }
+
+    .codebar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .codebar .dots span {
+      width: 10px;
+      height: 10px;
+    }
+
+    pre {
+      margin: 0;
+      padding: 18px;
+      overflow: auto;
+      line-height: 1.75;
+      font-size: 0.92rem;
+      color: #d6e4ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    code .kw { color: #7dd3fc; }
+    code .fn { color: #f9a8d4; }
+    code .str { color: #86efac; }
+    code .num { color: #fcd34d; }
+    code .com { color: #94a3b8; }
+
+    .tools-grid {
       display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+    }
+
+    .tool-area {
+      display: grid;
+      gap: 14px;
+    }
+
+    .tool-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
       gap: 10px;
+      align-items: center;
     }
 
-    .footer-note {
-      padding: 14px 16px 16px;
-      border-top: 1px solid var(--border);
+    .tool-row input,
+    .tool-row textarea,
+    .tool-row select {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      outline: none;
+    }
+
+    .tool-row textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .result {
+      min-height: 180px;
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px dashed rgba(102, 227, 255, 0.28);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .quote {
+      padding: 18px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
       color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
+      line-height: 1.7;
+      position: relative;
     }
 
-    .empty {
+    .quote strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .faq {
+      display: grid;
+      gap: 12px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      overflow: hidden;
+    }
+
+    .faq-q {
+      width: 100%;
+      padding: 16px 18px;
+      background: transparent;
+      color: var(--text);
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 18px 18px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .faq-item.open .faq-a {
+      display: block;
+    }
+
+    .banner {
       padding: 24px;
-      border: 1px dashed var(--border);
-      border-radius: 20px;
-      color: var(--muted);
-      text-align: center;
+      border-radius: 24px;
+      border: 1px solid rgba(102, 227, 255, 0.18);
+      background: linear-gradient(135deg, rgba(102, 227, 255, 0.08), rgba(139, 92, 246, 0.08));
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
     }
+
+    .banner p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 70ch;
+    }
+
+    .footer {
+      padding: 30px 0 50px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+      padding-top: 8px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer h4 {
+      margin: 0 0 14px;
+      color: var(--text);
+    }
+
+    .footer a {
+      display: block;
+      margin: 8px 0;
+      color: var(--muted);
+    }
+
+    .footer a:hover {
+      color: var(--text);
+    }
+
+    .copyright {
+      margin-top: 22px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-size: 0.92rem;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: rgba(6, 10, 20, 0.95);
+      color: var(--text);
+      border: 1px solid rgba(102, 227, 255, 0.2);
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: var(--shadow);
+      transform: translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.3s ease;
+      max-width: min(92vw, 320px);
+      z-index: 200;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.64);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 300;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(100%, 460px);
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(12, 18, 35, 0.98), rgba(6, 10, 20, 0.98));
+      box-shadow: var(--shadow);
+      padding: 22px;
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .modal h3 { margin: 0; }
+    .modal p { color: var(--muted); line-height: 1.7; }
+
+    .modal form {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .modal input {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      outline: none;
+    }
+
+    .close {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .muted { color: var(--muted); }
+    .right { text-align: right; }
+    .hide { display: none !important; }
 
     @media (max-width: 1080px) {
-      .shell { grid-template-columns: 1fr; }
-      .hero-grid { grid-template-columns: 1fr; }
-      .rightbar { grid-template-columns: 1fr 1fr; }
+      .hero-grid,
+      .tools-grid,
+      .footer-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .grid-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-3 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
-    @media (max-width: 760px) {
-      .rightbar, .stats, .composer-grid { grid-template-columns: 1fr; }
-      .topbar-inner { padding: 14px 16px; }
-      .shell { padding: 14px; }
-      .hero { padding: 18px; }
+    @media (max-width: 780px) {
+      .nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .navactions {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .hero-main {
+        padding: 22px;
+      }
+
+      .section-head {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .roadstep {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .copyright {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
-<body data-theme="dark">
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="brand">
-        <div class="logo">DF</div>
+<body>
+  <header class="topbar">
+    <div class="wrap nav">
+      <div class="brand" aria-label="DevForge brand">
+        <div class="logo"></div>
         <div>
           <h1>DevForge</h1>
-          <p>Developer community for tips, collabs, and builds</p>
+          <small>Forge better code every day</small>
         </div>
       </div>
-      <div class="top-actions">
-        <button class="btn" id="themeBtn">Toggle theme</button>
-        <button class="btn primary" id="scrollToFeedBtn">Join the feed</button>
+
+      <nav class="navlinks">
+        <a href="#features">Features</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#snippets">Snippets</a>
+        <a href="#tools">Tools</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+
+      <div class="navactions">
+        <button class="ghost" id="themeBtn">Toggle Theme</button>
+        <button class="secondary" id="loginBtn">Login</button>
+        <button class="primary" onclick="scrollToSection('tools')">Start Building</button>
       </div>
     </div>
-  </div>
+  </header>
 
-  <div class="shell">
-    <aside class="sidebar">
-      <div class="panel">
-        <div class="head">
-          <h3>Your profile</h3>
-          <p>Set a name so posts feel personal.</p>
-        </div>
-        <div class="body profile">
-          <div style="display:flex; gap:12px; align-items:center;">
-            <div class="avatar" id="avatar">P</div>
-            <div>
-              <div style="font-weight:800;" id="displayName">Prem</div>
-              <div class="muted small">Member of DevForge</div>
-            </div>
+  <main class="wrap">
+    <section class="hero">
+      <div class="hero-grid">
+        <div class="panel hero-main">
+          <div class="badge-row">
+            <span class="chip">Daily tips</span>
+            <span class="chip">Mini projects</span>
+            <span class="chip">Code snippets</span>
+            <span class="chip">Debug help</span>
+            <span class="chip">Learning paths</span>
           </div>
-          <input id="nameInput" placeholder="Your name" value="Prem" />
-          <input id="roleInput" placeholder="Your role (Web Dev, AI Dev, etc.)" value="Web Dev" />
-        </div>
-      </div>
 
-      <div class="panel">
-        <div class="head">
-          <h3>Channels</h3>
-          <p>Pick a topic to view tips and posts.</p>
-        </div>
-        <div class="body nav-list" id="channelList"></div>
-      </div>
+          <h2><span class="gradient-text">Build. Learn. Ship.</span> Become the developer who moves fast.</h2>
+          <p>
+            DevForge is a futuristic developer hub for tips, tools, code snippets, challenges, and learning paths.
+            It is built like a command center where beginners and advanced coders can find help, practice, and level up.
+          </p>
 
-      <div class="panel">
-        <div class="head">
-          <h3>Community goals</h3>
-          <p>What DevForge is for.</p>
-        </div>
-        <div class="body" style="display:grid; gap:10px;">
-          <div class="bubble"><b>Learn</b><div class="muted small">Share one helpful tip every day.</div></div>
-          <div class="bubble"><b>Build</b><div class="muted small">Turn ideas into small projects.</div></div>
-          <div class="bubble"><b>Collab</b><div class="muted small">Find people with the same goals.</div></div>
-        </div>
-      </div>
-    </aside>
-
-    <main class="main">
-      <section class="hero">
-        <div class="hero-grid">
-          <div>
-            <div class="tag">⚡ New developer space</div>
-            <h2>Build, post tips, and chat with other developers.</h2>
-            <p>
-              DevForge is a starter community website idea for developers. It has topic channels,
-              a public feed, quick chat, search, local posting, and a clean Discord-style layout.
-            </p>
-          </div>
-          <div class="stats">
-            <div class="stat">
-              <strong id="tipCount">0</strong>
-              <span class="muted small">tips shared</span>
-            </div>
-            <div class="stat">
-              <strong id="memberCount">128</strong>
-              <span class="muted small">members online</span>
-            </div>
-            <div class="stat">
-              <strong id="channelCount">0</strong>
-              <span class="muted small">channels</span>
-            </div>
-            <div class="stat">
-              <strong>Free</strong>
-              <span class="muted small">host on GitHub Pages</span>
-            </div>
+          <div class="hero-actions">
+            <button class="primary" onclick="showToast('Welcome to DevForge. Ready to build?')">Open Forge</button>
+            <button class="secondary" onclick="randomTip()">Get a Dev Tip</button>
+            <button class="ghost" onclick="randomChallenge()">Random Challenge</button>
           </div>
         </div>
-      </section>
 
-      <section class="panel" id="feedSection">
-        <div class="head">
-          <div class="section-top">
-            <div>
-              <h2 style="margin:0;">Public feed</h2>
-              <p>Posts update in your browser using localStorage.</p>
+        <div class="hero-side">
+          <div class="panel stats">
+            <div class="stat">
+              <strong>120+</strong>
+              <span>dev tips, ideas, and shortcuts</span>
             </div>
-            <div class="tabs" id="filterTabs"></div>
+            <div class="stat">
+              <strong>45+</strong>
+              <span>snippet examples and templates</span>
+            </div>
+            <div class="stat">
+              <strong>18</strong>
+              <span>learning paths and skill tracks</span>
+            </div>
+            <div class="stat">
+              <strong>∞</strong>
+              <span>room to keep improving</span>
+            </div>
           </div>
-        </div>
-        <div class="body">
-          <div class="row">
-            <input id="searchInput" placeholder="Search tips, tags, or names..." />
-            <div class="composer">
-              <div class="composer-grid">
-                <select id="channelSelect"></select>
-                <button class="btn primary" id="postBtn">Post tip</button>
+
+          <div class="panel mini-console">
+            <div class="console-top">
+              <div>
+                <strong>Live Forge Console</strong>
+                <div class="muted" style="font-size: .9rem;">A tiny dashboard preview</div>
               </div>
-              <textarea id="postText" placeholder="Share a tip, question, or tiny build idea..."></textarea>
+              <div class="dots" aria-hidden="true"><span></span><span></span><span></span></div>
+            </div>
+            <div class="console" id="consoleBox">
+<span class="gray">$</span> <span class="blue">devforge</span> <span class="yellow">init</span>
+
+<b>status</b>: <span class="str">ready</span>
+<b>modules</b>: tips, snippets, projects, tools, roadmap
+<b>mode</b>: <span class="pink">developer power-up</span>
+
+<span class="gray"># today’s mission</span>
+1. write clean code
+2. fix one bug
+3. build one thing
+4. ship it
+
+<span class="gray"># message</span>
+<span class="blue">You do not need to be perfect.</span>
+<span class="blue">You need to keep building.</span>
             </div>
           </div>
-          <div class="feed" id="feed"></div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <aside class="rightbar">
-      <section class="panel chat">
-        <div class="head">
-          <h3>Quick chat</h3>
-          <p>Not real-time yet, but it feels like a small Discord room.</p>
+    <section class="section" id="features">
+      <div class="section-head">
+        <div>
+          <h3>Core Features</h3>
+          <p>Seven major parts are here, but the site goes beyond that with tools, feedback loops, and a learning system that feels alive.</p>
         </div>
-        <div class="body">
-          <div class="chat-log" id="chatLog"></div>
-          <div class="row" style="margin-top:12px;">
-            <input id="chatName" placeholder="Name" value="Prem" />
-            <input id="chatMsg" placeholder="Message..." />
-            <button class="btn primary" id="sendMsgBtn">Send message</button>
+        <div class="controls">
+          <div class="search">
+            <span>⌕</span>
+            <input id="featureSearch" type="text" placeholder="Search features..." />
           </div>
         </div>
-      </section>
+      </div>
 
-      <section class="panel">
-        <div class="head">
-          <h3>Daily build ideas</h3>
-          <p>Extra sections you can keep on the site.</p>
+      <div class="grid-3" id="featureGrid">
+        <article class="card feature-card" data-name="daily tips motivation quick advice">
+          <div class="icon">⚡</div>
+          <h4>Daily Dev Tips</h4>
+          <p>Short, useful coding tips that help you write better code, avoid mistakes, and work faster.</p>
+          <span class="pill">Tip of the day</span>
+        </article>
+
+        <article class="card feature-card" data-name="snippet library code templates reusable">
+          <div class="icon">🧩</div>
+          <h4>Snippet Library</h4>
+          <p>A clean library of HTML, CSS, JavaScript, and Python snippets that you can copy and learn from.</p>
+          <span class="pill">Reusable code</span>
+        </article>
+
+        <article class="card feature-card" data-name="mini projects beginner practice ideas">
+          <div class="icon">🚀</div>
+          <h4>Mini Projects</h4>
+          <p>Beginner-friendly and advanced project ideas that help you practice and build a real portfolio.</p>
+          <span class="pill">Build stuff</span>
+        </article>
+
+        <article class="card feature-card" data-name="bug fix errors debugging help">
+          <div class="icon">🐞</div>
+          <h4>Bug Fix Helper</h4>
+          <p>Common coding errors explained in simple language with quick fixes and debugging advice.</p>
+          <span class="pill">Debug faster</span>
+        </article>
+
+        <article class="card feature-card" data-name="roadmaps learning path skills">
+          <div class="icon">🗺️</div>
+          <h4>Learning Roadmaps</h4>
+          <p>Step-by-step paths for web development, Python, DSA, app development, and more.</p>
+          <span class="pill">Guided learning</span>
+        </article>
+
+        <article class="card feature-card" data-name="challenges practice competitions coding">
+          <div class="icon">🏁</div>
+          <h4>Developer Challenges</h4>
+          <p>Daily and weekly challenges that keep your brain active and your skills growing.</p>
+          <span class="pill">Practice mode</span>
+        </article>
+
+        <article class="card feature-card" data-name="toolbox utilities generator picker converter">
+          <div class="icon">🛠️</div>
+          <h4>Developer Toolbox</h4>
+          <p>Handy utilities like password generators, formatters, countdowns, and quick helpers in one place.</p>
+          <span class="pill">Build faster</span>
+        </article>
+
+        <article class="card feature-card" data-name="community feedback learn together notes">
+          <div class="icon">🌐</div>
+          <h4>Community Pulse</h4>
+          <p>Ideas, quotes, and progress tracking that make the website feel alive and encouraging.</p>
+          <span class="pill">Stay connected</span>
+        </article>
+
+        <article class="card feature-card" data-name="developer dashboard productivity focus">
+          <div class="icon">📈</div>
+          <h4>Dev Dashboard</h4>
+          <p>A clear dashboard that helps users track progress, find focus, and keep coding daily.</p>
+          <span class="pill">Track progress</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="roadmap">
+      <div class="section-head">
+        <div>
+          <h3>Learning Roadmap</h3>
+          <p>A clear roadmap helps users know exactly what to learn next. This one is simple, practical, and easy to follow.</p>
         </div>
-        <div class="body" style="display:grid; gap:10px;">
-          <div class="bubble"><b>1. Challenge board</b><div class="muted small">Post mini coding tasks.</div></div>
-          <div class="bubble"><b>2. Collab finder</b><div class="muted small">Match by skill and interest.</div></div>
-          <div class="bubble"><b>3. Resource vault</b><div class="muted small">Save links and tutorials.</div></div>
-          <div class="bubble"><b>4. Showcase</b><div class="muted small">Show projects and demos.</div></div>
-          <div class="bubble"><b>5. Help desk</b><div class="muted small">Ask questions and get replies.</div></div>
-          <div class="bubble"><b>6. Role badges</b><div class="muted small">Web, app, AI, Roblox, game, design.</div></div>
-          <div class="bubble"><b>7. Weekly events</b><div class="muted small">Hackathons and build nights.</div></div>
+      </div>
+
+      <div class="roadmap">
+        <div class="roadstep">
+          <strong>Step 01</strong>
+          <span>Learn basic HTML structure, tags, and page layout.</span>
+          <div class="level">Starter</div>
         </div>
-      </section>
-    </aside>
-  </div>
+        <div class="roadstep">
+          <strong>Step 02</strong>
+          <span>Add CSS for color, spacing, cards, and responsive design.</span>
+          <div class="level">Design</div>
+        </div>
+        <div class="roadstep">
+          <strong>Step 03</strong>
+          <span>Use JavaScript for buttons, interactivity, and logic.</span>
+          <div class="level">Logic</div>
+        </div>
+        <div class="roadstep">
+          <strong>Step 04</strong>
+          <span>Build mini projects like calculators, to-do apps, and quiz games.</span>
+          <div class="level">Practice</div>
+        </div>
+        <div class="roadstep">
+          <strong>Step 05</strong>
+          <span>Learn Git, GitHub, deployment, and portfolio building.</span>
+          <div class="level">Ship</div>
+        </div>
+      </div>
+    </section>
 
-  <script>
-    const channels = [
-      { id: 'all', name: 'All', icon: '🌍' },
-      { id: 'web', name: 'Web Dev', icon: '🌐' },
-      { id: 'app', name: 'App Dev', icon: '📱' },
-      { id: 'ai', name: 'AI Dev', icon: '🤖' },
-      { id: 'roblox', name: 'Roblox Dev', icon: '🎮' },
-      { id: 'game', name: 'Game Dev', icon: '🕹️' },
-      { id: 'design', name: 'Design', icon: '🎨' },
-      { id: 'tools', name: 'Tools', icon: '🛠️' }
-    ];
+    <section class="section" id="snippets">
+      <div class="section-head">
+        <div>
+          <h3>Code Snippets</h3>
+          <p>Small examples help users learn faster. This section can be expanded into a full snippet library later.</p>
+        </div>
+      </div>
 
-    const seedPosts = [
-      { id: 1, channel: 'web', name: 'Aarav', role: 'Frontend', text: 'Keep your homepage simple. One strong headline beats five weak ones.', likes: 14, time: '2h ago' },
-      { id: 2, channel: 'ai', name: 'Mira', role: 'AI Dev', text: 'Start with a small prompt app. Learn the workflow before chasing big models.', likes: 21, time: '4h ago' },
-      { id: 3, channel: 'roblox', name: 'Kabir', role: 'Game Scripter', text: 'Use one game mechanic and polish it. A tiny fun game is better than a huge broken one.', likes: 18, time: '6h ago' },
-      { id: 4, channel: 'app', name: 'Nina', role: 'Mobile Dev', text: 'Make the first screen super clear. People decide fast whether your app feels good.', likes: 16, time: '8h ago' },
-      { id: 5, channel: 'tools', name: 'DevBot', role: 'Community', text: 'Tip: Use GitHub Pages for free hosting and share your project link with friends.', likes: 30, time: 'Today' }
-    ];
-
-    const state = {
-      activeChannel: 'all',
-      search: '',
-      posts: loadPosts(),
-      chat: loadChat(),
-      theme: localStorage.getItem('devforge-theme') || 'dark'
-    };
-
-    const el = (id) => document.getElementById(id);
-
-    function initials(name) {
-      return (name || 'P').trim().slice(0, 1).toUpperCase();
-    }
-
-    function loadPosts() {
-      try {
-        const saved = JSON.parse(localStorage.getItem('devforge-posts'));
-        return Array.isArray(saved) ? saved : seedPosts;
-      } catch {
-        return seedPosts;
-      }
-    }
-
-    function savePosts() {
-      localStorage.setItem('devforge-posts', JSON.stringify(state.posts));
-    }
-
-    function loadChat() {
-      try {
-        const saved = JSON.parse(localStorage.getItem('devforge-chat'));
-        return Array.isArray(saved) ? saved : [
-          { name: 'Prem', msg: 'Anyone building a website today?', time: 'Now' },
-          { name: 'Lia', msg: 'Yes — working on a portfolio!', time: '1m ago' }
-        ];
-      } catch {
-        return [];
-      }
-    }
-
-    function saveChat() {
-      localStorage.setItem('devforge-chat', JSON.stringify(state.chat));
-    }
-
-    function setTheme(theme) {
-      document.body.setAttribute('data-theme', theme);
-      localStorage.setItem('devforge-theme', theme);
-    }
-
-    function renderChannels() {
-      const channelList = el('channelList');
-      const filterTabs = el('filterTabs');
-      const channelSelect = el('channelSelect');
-
-      channelList.innerHTML = '';
-      filterTabs.innerHTML = '';
-      channelSelect.innerHTML = '';
-
-      channels.forEach((ch) => {
-        const btn = document.createElement('button');
-        btn.className = 'nav-item' + (state.activeChannel === ch.id ? ' active' : '');
-        btn.innerHTML = `<span>${ch.icon} ${ch.name}</span><span class="muted small">${countByChannel(ch.id)}</span>`;
-        btn.onclick = () => {
-          state.activeChannel = ch.id;
-          render();
-        };
-        channelList.appendChild(btn);
-
-        const tab = document.createElement('button');
-        tab.className = 'tab' + (state.activeChannel === ch.id ? ' active' : '');
-        tab.textContent = ch.name;
-        tab.onclick = () => {
-          state.activeChannel = ch.id;
-          render();
-        };
-        filterTabs.appendChild(tab);
-
-        if (ch.id !== 'all') {
-          const opt = document.createElement('option');
-          opt.value = ch.id;
-          opt.textContent = `${ch.icon} ${ch.name}`;
-          channelSelect.appendChild(opt);
-        }
-      });
-
-      el('channelCount').textContent = channels.length - 1;
-    }
-
-    function countByChannel(channelId) {
-      if (channelId === 'all') return state.posts.length;
-      return state.posts.filter(p => p.channel === channelId).length;
-    }
-
-    function filteredPosts() {
-      const q = state.search.toLowerCase().trim();
-      return state.posts
-        .filter(post => state.activeChannel === 'all' ? true : post.channel === state.activeChannel)
-        .filter(post => {
-          if (!q) return true;
-          return [post.name, post.role, post.text, post.channel].join(' ').toLowerCase().includes(q);
-        })
-        .sort((a, b) => b.id - a.id);
-    }
-
-    function renderFeed() {
-      const feed = el('feed');
-      const posts = filteredPosts();
-      el('tipCount').textContent = state.posts.length;
-
-      if (!posts.length) {
-        feed.innerHTML = `<div class="empty">No posts found. Try another category or search term.</div>`;
-        return;
-      }
-
-      feed.innerHTML = '';
-      posts.forEach(post => {
-        const channel = channels.find(c => c.id === post.channel);
-        const card = document.createElement('div');
-        card.className = 'post-card';
-        card.innerHTML = `
-          <div class="post-top">
-            <div>
-              <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-                <div style="width:40px; height:40px; border-radius:14px; background:linear-gradient(135deg, var(--accent), #7c3aed); display:grid; place-items:center; color:#fff; font-weight:800;">${initials(post.name)}</div>
-                <div>
-                  <div style="font-weight:800;">${post.name} <span class="muted small">• ${post.role}</span></div>
-                  <div class="meta"><span>${channel?.icon || '💬'} ${channel?.name || post.channel}</span><span>${post.time}</span></div>
-                </div>
-              </div>
+      <div class="grid-3">
+        <div class="card">
+          <h4>JavaScript Button</h4>
+          <div class="codebox">
+            <div class="codebar">
+              <span>button.js</span>
+              <div class="dots"><span></span><span></span><span></span></div>
             </div>
-            <span class="tag">#${post.channel}</span>
+            <pre><code><span class="kw">const</span> btn = <span class="fn">document.querySelector</span>(<span class="str">"#btn"</span>);
+
+btn.<span class="fn">addEventListener</span>(<span class="str">"click"</span>, () =&gt; {
+  <span class="fn">alert</span>(<span class="str">"Hello DevForge"</span>);
+});</code></pre>
           </div>
-          <div style="line-height:1.7;">${escapeHtml(post.text)}</div>
-          <div class="actions">
-            <button class="mini-btn" data-like="${post.id}">👍 Like ${post.likes}</button>
-            <button class="mini-btn" data-copy="${post.id}">📋 Copy</button>
+        </div>
+
+        <div class="card">
+          <h4>HTML Card</h4>
+          <div class="codebox">
+            <div class="codebar">
+              <span>card.html</span>
+              <div class="dots"><span></span><span></span><span></span></div>
+            </div>
+            <pre><code><span class="com">&lt;!-- a simple feature card --&gt;</span>
+&lt;div class=<span class="str">"card"</span>&gt;
+  &lt;h3&gt;Title&lt;/h3&gt;
+  &lt;p&gt;Description&lt;/p&gt;
+&lt;/div&gt;</code></pre>
           </div>
-        `;
-        feed.appendChild(card);
-      });
+        </div>
 
-      feed.querySelectorAll('[data-like]').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = Number(btn.getAttribute('data-like'));
-          const post = state.posts.find(p => p.id === id);
-          if (post) {
-            post.likes += 1;
-            savePosts();
-            renderFeed();
-          }
-        });
-      });
+        <div class="card">
+          <h4>CSS Glow</h4>
+          <div class="codebox">
+            <div class="codebar">
+              <span>glow.css</span>
+              <div class="dots"><span></span><span></span><span></span></div>
+            </div>
+            <pre><code>.box {
+  background: linear-gradient(135deg, #66e3ff, #8b5cf6);
+  box-shadow: 0 0 30px rgba(102, 227, 255, 0.25);
+  border-radius: 20px;
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      feed.querySelectorAll('[data-copy]').forEach(btn => {
-        btn.addEventListener('click', async () => {
-          const id = Number(btn.getAttribute('data-copy'));
-          const post = state.posts.find(p => p.id === id);
-          if (post && navigator.clipboard) {
-            await navigator.clipboard.writeText(post.text);
-            btn.textContent = '✅ Copied';
-            setTimeout(() => { btn.textContent = '📋 Copy'; }, 1100);
-          }
-        });
-      });
-    }
+    <section class="section" id="tools">
+      <div class="section-head">
+        <div>
+          <h3>Developer Toolbox</h3>
+          <p>These tools are designed to feel useful and fun. They are simple enough to keep the site light, but interactive enough to feel alive.</p>
+        </div>
+      </div>
 
-    function renderChat() {
-      const chatLog = el('chatLog');
-      chatLog.innerHTML = '';
-      state.chat.slice(-20).forEach(item => {
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        bubble.innerHTML = `<div class="name">${escapeHtml(item.name)} <span class="muted small">• ${item.time}</span></div><div>${escapeHtml(item.msg)}</div>`;
-        chatLog.appendChild(bubble);
-      });
-      chatLog.scrollTop = chatLog.scrollHeight;
-    }
+      <div class="tools-grid">
+        <div class="panel" style="padding:18px;">
+          <div class="tool-area">
+            <div class="tool-row">
+              <input id="toolInput" type="text" placeholder="Type a developer idea, question, or keyword..." />
+              <button class="primary" onclick="runTool()">Run</button>
+            </div>
+            <div class="tool-row">
+              <select id="toolSelect">
+                <option value="tip">Dev Tip Generator</option>
+                <option value="project">Mini Project Generator</option>
+                <option value="bug">Bug Fix Helper</option>
+                <option value="challenge">Challenge Picker</option>
+                <option value="quote">Motivation Quote</option>
+              </select>
+              <button class="secondary" onclick="runTool()">Generate</button>
+            </div>
+            <div class="result" id="toolResult">Your result will appear here.</div>
+          </div>
+        </div>
 
-    function escapeHtml(text) {
-      return String(text)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#039;');
-    }
+        <div class="panel" style="padding:18px;">
+          <h4 style="margin-top:0;">Popular Dev Forge Ideas</h4>
+          <div class="list">
+            <div class="quote">
+              <strong>Project builder</strong>
+              A section that generates mini projects and explains how to start them.
+            </div>
+            <div class="quote">
+              <strong>Snippet vault</strong>
+              A searchable library of code templates for beginners and fast builders.
+            </div>
+            <div class="quote">
+              <strong>Bug lab</strong>
+              Common errors with clean explanations so users do not get stuck for too long.
+            </div>
+            <div class="quote">
+              <strong>Level system</strong>
+              Earn badges by finishing challenges, learning paths, and small projects.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    function addPost() {
-      const name = el('nameInput').value.trim() || 'Anonymous';
-      const role = el('roleInput').value.trim() || 'Developer';
-      const text = el('postText').value.trim();
-      const channel = el('channelSelect').value;
-      if (!text) return;
+    <section class="section" id="community">
+      <div class="section-head">
+        <div>
+          <h3>Dev Quotes and Wins</h3>
+          <p>Small encouragement helps a lot. This section can display tips, wins, and mindset messages for developers.</p>
+        </div>
+      </div>
 
-      state.posts.push({
-        id: Date.now(),
-        channel,
-        name,
-        role,
-        text,
-        likes: 0,
-        time: 'Just now'
-      });
+      <div class="grid-4">
+        <div class="quote"><strong>Keep going</strong>Every bug solved makes you stronger than yesterday.</div>
+        <div class="quote"><strong>Focus</strong>One small feature built today is better than a giant idea never started.</div>
+        <div class="quote"><strong>Consistency</strong>Code daily, even for 20 minutes, and your skill will grow fast.</div>
+        <div class="quote"><strong>Ship</strong>Finished projects teach more than endless planning.</div>
+      </div>
+    </section>
 
-      savePosts();
-      el('postText').value = '';
-      render();
-    }
+    <section class="section" id="faq">
+      <div class="section-head">
+        <div>
+          <h3>Frequently Asked Questions</h3>
+          <p>These are good starter questions for a developer site. They can later be connected to real answers or a database.</p>
+        </div>
+      </div>
 
-    function sendChat() {
-      const name = el('chatName').value.trim() || 'Anon';
-      const msg = el('chatMsg').value.trim();
-      if (!msg) return;
+      <div class="faq">
+        <div class="faq-item">
+          <button class="faq-q">What is DevForge? <span>+</span></button>
+          <div class="faq-a">DevForge is a developer-focused website concept built to help users learn, practice, and build through tips, snippets, projects, and tools.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Who is it for? <span>+</span></button>
+          <div class="faq-a">It is useful for beginners, students, and coders who want a clean place to learn and build better habits.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Can it become a full web app? <span>+</span></button>
+          <div class="faq-a">Yes. It can later connect to login systems, user profiles, databases, saved snippets, real-time comments, and AI helpers.</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Is this mobile friendly? <span>+</span></button>
+          <div class="faq-a">Yes, this layout is responsive and collapses nicely on smaller screens.</div>
+        </div>
+      </div>
+    </section>
 
-      state.chat.push({ name, msg, time: 'Just now' });
-      saveChat();
-      el('chatMsg').value = '';
-      renderChat();
-    }
+    <section class="section">
+      <div class="banner">
+        <div>
+          <h3 style="margin:0;">Ready to turn DevForge into a real product?</h3>
+          <p>
+            This single-page version already has a premium look, multiple sections, search, tools, modal login, FAQ toggle, and interactive buttons.
+            It can now be expanded into a full website with backend, authentication, saved data, and more pages.
+          </p>
+        </div>
+        <div class="navactions">
+          <button class="primary" onclick="openModal()">Open Login</button>
+          <button class="ghost" onclick="showToast('DevForge saved as a strong homepage concept.')">Save Idea</button>
+        </div>
+      </div>
+    </section>
+  </main>
 
-    function render() {
-      el('displayName').textContent = el('nameInput').value.trim() || 'Prem';
-      el('avatar').textContent = initials(el('nameInput').value.trim() || 'P');
-      renderChannels();
-      renderFeed();
-      renderChat();
-    }
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div>
+        <h4>DevForge</h4>
+        <p class="muted">A futuristic developer hub concept for tips, learning, projects, and productivity.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#features">Features</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#snippets">Snippets</a>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <a href="#tools">Toolbox</a>
+        <a href="#faq">FAQ</a>
+        <a href="#community">Quotes</a>
+      </div>
+      <div>
+        <h4>Build</h4>
+        <a href="#" onclick="showToast('Next step: connect backend.')">Backend</a>
+        <a href="#" onclick="showToast('Next step: add login flow.')">Login</a>
+        <a href="#" onclick="showToast('Next step: add database.')">Database</a>
+      </div>
+    </div>
 
-    el('nameInput').addEventListener('input', render);
-    el('roleInput').addEventListener('input', render);
-    el('searchInput').addEventListener('input', (e) => {
-      state.search = e.target.value;
-      renderFeed();
-    });
-    el('postBtn').addEventListener('click', addPost);
-    el('sendMsgBtn').addEventListener('click', sendChat);
-    el('chatMsg').addEventListener('keydown', (e) => { if (e.key === 'Enter') sendChat(); });
-    el('postText').addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') addPost();
-    });
-
-    el('themeBtn').addEventListener('click', () => {
-      const next = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      setTheme(next);
-    });
-
-    el('scrollToFeedBtn').addEventListener('click', () => {
-      el('feedSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-
-    setTheme(state.theme);
-    render();
-  </script>
+    <div class="wrap copyright">
+      <div>© 2026 DevForge. Built for developers.</div>
+      <div>Forge better code, every day.</div>
+    </div>
+  </footer>
 </body>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h3 id="loginTitle">Login to DevForge</h3>
+        <p>Simple demo form for the homepage. This can later connect to a real backend.</p>
+      </div>
+      <button class="close" onclick="closeModal()">✕</button>
+    </div>
+
+    <form onsubmit="event.preventDefault(); showToast('Login form submitted. Connect backend next.'); closeModal();">
+      <input type="text" placeholder="Username or email" required />
+      <input type="password" placeholder="Password" required />
+      <button class="primary" type="submit">Login</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const tips = [
+    'Write code in small steps. Small steps are easier to debug.',
+    'Name variables clearly. Future-you will thank you.',
+    'Build one tiny project instead of waiting for a giant idea.',
+    'Use comments to explain why, not what.',
+    'Learn by fixing bugs, not only by watching tutorials.',
+    'Keep your UI simple before making it fancy.'
+  ];
+
+  const projects = [
+    'A simple habit tracker with streaks and daily goals.',
+    'A student dashboard that shows marks, tasks, and notes.',
+    'A weather app UI with search and live cards.',
+    'A password generator with strength meter and copy button.',
+    'A portfolio homepage with animated sections and contact form.',
+    'A quiz app that saves scores locally.'
+  ];
+
+  const bugs = [
+    'Check brackets, commas, and indentation first.',
+    'If JavaScript is not running, open the browser console.',
+    'For layout issues, inspect spacing, width, and flex/grid settings.',
+    'If a button does nothing, confirm the event listener is attached.',
+    'Break the problem into small parts and test each part separately.'
+  ];
+
+  const challenges = [
+    'Build a login card with only HTML and CSS.',
+    'Create a countdown timer in JavaScript.',
+    'Make a to-do app with add, delete, and complete options.',
+    'Build a responsive pricing section.',
+    'Make a color theme switcher.',
+    'Create a quote generator.'
+  ];
+
+  const quotes = [
+    'Code is a skill. Skills grow by repetition.',
+    'A finished small project is better than a half-finished dream.',
+    'Your first version does not need to be perfect.',
+    'Every expert was once a beginner who kept going.',
+    'Build, break, learn, improve, repeat.'
+  ];
+
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(window.toastTimer);
+    window.toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
+  }
+
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function randomFrom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function randomTip() {
+    document.getElementById('toolSelect').value = 'tip';
+    document.getElementById('toolResult').textContent = 'Tip: ' + randomFrom(tips);
+    showToast('New tip generated');
+  }
+
+  function randomChallenge() {
+    document.getElementById('toolSelect').value = 'challenge';
+    document.getElementById('toolResult').textContent = 'Challenge: ' + randomFrom(challenges);
+    showToast('New challenge generated');
+  }
+
+  function runTool() {
+    const mode = document.getElementById('toolSelect').value;
+    const input = document.getElementById('toolInput').value.trim();
+    const out = document.getElementById('toolResult');
+
+    let text = '';
+
+    if (mode === 'tip') {
+      text = 'Tip: ' + randomFrom(tips);
+    } else if (mode === 'project') {
+      text = 'Project idea: ' + randomFrom(projects) + (input ? '\n\nCustom note: ' + input : '');
+    } else if (mode === 'bug') {
+      text = 'Bug fix helper: ' + randomFrom(bugs) + (input ? '\n\nProblem hint: ' + input : '');
+    } else if (mode === 'challenge') {
+      text = 'Challenge: ' + randomFrom(challenges);
+    } else if (mode === 'quote') {
+      text = 'Quote: ' + randomFrom(quotes);
+    }
+
+    out.textContent = text;
+    showToast('Tool generated a result');
+  }
+
+  function openModal() {
+    document.getElementById('modalBackdrop').classList.add('open');
+  }
+
+  function closeModal() {
+    document.getElementById('modalBackdrop').classList.remove('open');
+  }
+
+  document.getElementById('loginBtn').addEventListener('click', openModal);
+  document.getElementById('modalBackdrop').addEventListener('click', (e) => {
+    if (e.target.id === 'modalBackdrop') closeModal();
+  });
+
+  document.getElementById('themeBtn').addEventListener('click', () => {
+    document.body.classList.toggle('light-mode');
+    if (document.body.classList.contains('light-mode')) {
+      document.documentElement.style.setProperty('--bg', '#f8fafc');
+      document.documentElement.style.setProperty('--bg2', '#e2e8f0');
+      document.documentElement.style.setProperty('--card', 'rgba(255,255,255,0.85)');
+      document.documentElement.style.setProperty('--card2', 'rgba(255,255,255,0.95)');
+      document.documentElement.style.setProperty('--text', '#0f172a');
+      document.documentElement.style.setProperty('--muted', '#475569');
+      document.documentElement.style.setProperty('--line', 'rgba(15, 23, 42, 0.12)');
+      showToast('Light mode enabled');
+    } else {
+      document.documentElement.style.setProperty('--bg', '#070b16');
+      document.documentElement.style.setProperty('--bg2', '#0d1324');
+      document.documentElement.style.setProperty('--card', 'rgba(10, 16, 31, 0.82)');
+      document.documentElement.style.setProperty('--card2', 'rgba(14, 21, 39, 0.9)');
+      document.documentElement.style.setProperty('--text', '#e5eefc');
+      document.documentElement.style.setProperty('--muted', '#93a4c3');
+      document.documentElement.style.setProperty('--line', 'rgba(148, 163, 184, 0.15)');
+      showToast('Dark mode enabled');
+    }
+  });
+
+  document.querySelectorAll('.faq-q').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach((i) => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  document.getElementById('featureSearch').addEventListener('input', (e) => {
+    const value = e.target.value.toLowerCase().trim();
+    document.querySelectorAll('.feature-card').forEach((card) => {
+      const name = card.dataset.name || '';
+      const match = name.includes(value) || card.innerText.toLowerCase().includes(value);
+      card.classList.toggle('hide', value && !match);
+    });
+  });
+
+  document.getElementById('consoleBox').innerHTML = `
+<span class="gray">$</span> <span class="blue">devforge</span> <span class="yellow">init</span>
+
+<b>status</b>: <span class="str">ready</span>
+<b>modules</b>: tips, snippets, projects, tools, roadmap
+<b>mode</b>: <span class="pink">developer power-up</span>
+
+<span class="gray"># today’s mission</span>
+1. write clean code
+2. fix one bug
+3. build one thing
+4. ship it
+
+<span class="gray"># message</span>
+<span class="blue">You do not need to be perfect.</span>
+<span class="blue">You need to keep building.</span>`;
+
+  showToast('DevForge loaded');
+</script>
 </html>
+
